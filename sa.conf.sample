@@ -1,0 +1,5 @@
+[sa]
+ovn_db=<Edit here ovn DB ip>:6640
+el_duration=3
+el_bandwidth=500
+flow_timeout=60

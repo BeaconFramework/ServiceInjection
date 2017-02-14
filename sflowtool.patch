@@ -1,0 +1,39 @@
+--- /home/vagrant/sflowtool/src/sflowtool.c	2015-11-07 11:21:03.018144987 +0000
++++ /home/vagrant/sflowtool-orig/src/sflowtool.c	2015-11-07 12:39:41.027369926 +0000
+@@ -299,7 +299,6 @@
+   uint32_t dcd_ipTTL;
+   uint32_t dcd_sport;
+   uint32_t dcd_dport;
+-  uint32_t dcd_seq;
+   uint32_t dcd_tcpFlags;
+   uint32_t ip_fragmentOffset;
+   uint32_t udp_pduLen;
+@@ -677,7 +676,7 @@
+     exit(-42);
+   }
+   /* layer 3/4 */
+-  if(printf(",%s,%s,%d,0x%02x,%d,%d,%d,%d,0x%02x",
++  if(printf(",%s,%s,%d,0x%02x,%d,%d,%d,0x%02x",
+ 	    printAddress(&sample->ipsrc, srcIP),
+ 	    printAddress(&sample->ipdst, dstIP),
+ 	    sample->dcd_ipProtocol,
+@@ -685,7 +684,6 @@
+ 	    sample->dcd_ipTTL,
+ 	    sample->dcd_sport,
+ 	    sample->dcd_dport,
+-	    sample->dcd_seq,
+ 	    sample->dcd_tcpFlags) < 0) {
+     exit(-43);
+   }
+@@ -1026,11 +1024,9 @@
+       memcpy(&tcp, ptr, sizeof(tcp));
+       sample->dcd_sport = ntohs(tcp.th_sport);
+       sample->dcd_dport = ntohs(tcp.th_dport);
+-      sample->dcd_seq = ntohl(tcp.th_seq);
+       sample->dcd_tcpFlags = tcp.th_flags;
+       sf_log(sample,"TCPSrcPort %u\n", sample->dcd_sport);
+       sf_log(sample,"TCPDstPort %u\n",sample->dcd_dport);
+-      sf_log(sample,"TCPSeq %lu\n",sample->dcd_seq);
+       sf_log(sample,"TCPFlags %u\n", sample->dcd_tcpFlags);
+       headerBytes = (tcp.th_off_and_unused >> 4) * 4;
+       ptr += headerBytes;
